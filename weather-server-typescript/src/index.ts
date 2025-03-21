@@ -86,7 +86,9 @@ server.tool(
     state: z.string().length(2).describe("Two-letter state code (e.g. CA, NY)"),
   },
   async ({ state }) => {
+    console.log(`查看一个州的天气${state}`)
     const stateCode = state.toUpperCase();
+    
     const alertsUrl = `${NWS_API_BASE}/alerts?area=${stateCode}`;
     const alertsData = await makeNWSRequest<AlertsResponse>(alertsUrl);
 
@@ -131,7 +133,7 @@ server.tool(
   "get-forecast",
   "Get weather forecast for a location",
   {
-    latitude: z.number().min(-90).max(90).describe("Latitude of the location"),
+    latitude: z.number().min(-90).max(90).describe("Latitude of the location") ,
     longitude: z
       .number()
       .min(-180)
@@ -139,6 +141,7 @@ server.tool(
       .describe("Longitude of the location"),
   },
   async ({ latitude, longitude }) => {
+    console.error(`处理天气预报请求: 经度=${longitude}, 纬度=${latitude}`);
     // Get grid point data
     const pointsUrl = `${NWS_API_BASE}/points/${latitude.toFixed(4)},${longitude.toFixed(4)}`;
     const pointsData = await makeNWSRequest<PointsResponse>(pointsUrl);

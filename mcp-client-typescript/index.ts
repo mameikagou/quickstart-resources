@@ -6,7 +6,7 @@ import {
 
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import readline from "readline/promises";
+import readline from "node:readline/promises";
 
 import dotenv from "dotenv";
 
@@ -51,6 +51,8 @@ class MCPClient {
         : process.execPath;
 
       // Initialize transport and connect to server
+      // its a bridge betweent client and server
+      // spawning a process and communicating with it over stdin/stdout.
       this.transport = new StdioClientTransport({
         command,
         args: [serverScriptPath],
